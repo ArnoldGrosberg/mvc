@@ -2,11 +2,31 @@ class Model {
   constructor(){
     // data
     this.tasks = [
-      {id:1, text: 'Be good', complete: false},
-      {id:2, text: 'Be nice', complete: false}
+      {id:0, text: 'Be good', complete: false},
+      {id:1, text: 'Be nice', complete: false}
     ]
   }
+  delTask(delItem){
+          // leiab listist object ja siis kustutab selle objecti listist.
+          let i = 0;
+      while (i < this.tasks.length) {
+        let nrID = this.tasks[i].id;
+        let task = this.tasks[i];
+        if (nrID == event.target.parentElement.id) {
+          console.log("sain: " + event.target.parentElement.id)
+          var filtered = this.tasks.filter(function(value, index, arr){ 
+      // vaja leida listi väärtust, objecti mis on selle IDega
 
+        return value != task;
+    });
+        }
+        i++;
+      }
+    this.tasks = filtered;
+
+    // callback changed controll
+    this.onTaskListChanged(this.tasks)
+  }
   addTask(taskText){
     // create id
     let id
@@ -32,13 +52,10 @@ class Model {
     console.log('model - tasks changed')
     this.onTaskListChanged = callback
   }
-
-  delTask(delItem){
-    console.log("Delete item")
-  }
 }
 
 class View {
+
   constructor(){
     // basic view
     // root element
@@ -138,8 +155,9 @@ class View {
 
   delTask(handler){
     this.taskList.addEventListener('click', event => {
-      console.log("delete  " + this.taskList)
       event.preventDefault()
+        handler(this._taskText)
+        this.resetInput()
     })
   }
 
@@ -172,6 +190,7 @@ class Controller {
   }
   handleDelTask = delItem => {
       this.model.delTask(delItem)
+      console.log('controller - delete task')
   }
 }
 
