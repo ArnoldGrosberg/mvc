@@ -155,9 +155,11 @@ class View {
 
   delTask(handler){
     this.taskList.addEventListener('click', event => {
-      event.preventDefault()
+      if (event.target.textContent == 'Delete'){
+        event.preventDefault()
         handler(this._taskText)
         this.resetInput()
+      }
     })
   }
 
